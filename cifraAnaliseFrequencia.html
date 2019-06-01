@@ -1,0 +1,146 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/w3css.css">    
+
+<script src="js/jquery-3.4.1.slim.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>-->
+
+<script src="js/popper.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+
+<script src="js/bootstrap.min.js"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+
+<style>
+        .button {
+          padding: 10px 20px;
+          font-size: 20px;
+          text-align: center;
+          cursor: pointer;
+          outline: none;
+          color: #fff;
+          background-color: black;
+          border: none;
+          border-radius: 15px;
+          box-shadow: 0 9px #999;
+        }
+        
+        .button:hover {background-color:#666}
+        
+        .button:active {
+          background-color: #3e8e41;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+        }
+        </style>
+<form id="form-decifrar">
+  <div class="w3-container w3-card-4 w3-border">
+      <div class="w3-col w3-container" style="padding: 2%">
+          <label for="texto-cript4">Texto a ser Análisado</label>
+          <br>
+          <input type="text" class="w3-input w3-border" name="texto-cript4" id="texto-cript4">
+      </div>  
+      
+      <div class="w3-container w3-row" >
+        <div class="w3-quarter">
+            <button type="submit" class="button" >Decifrar</button>
+        </div>
+
+        <div class="w3-threequarter">
+            <button type="submit" id="botoes" class="button">Tentar mais uma vez</button>
+        </div>
+        
+     </div>
+      
+      <div class="w3-col" id="result-descript2" style="margin: 5%">
+        
+      </div>  
+  </div>
+</form>  
+
+<script>
+  var alfabeto = []
+    var indice
+
+  function decriptCesar(texto, posicao) {
+			var cifra = ""
+			for (var i = 0; i < texto.length; i++) {
+				if (texto.charCodeAt(i) == 32) {
+					cifra += String.fromCharCode(32)
+					continue
+				}
+
+				var codigo = (((texto.charCodeAt(i) - 90) - posicao) % 26) + 90
+
+				cifra += String.fromCharCode(codigo)
+			}
+      console.log(cifra)
+			return cifra
+
+		}
+
+  function indice_maior(alfabeto, indice_2 = null){
+			var maior = 0
+			var novoindice
+
+			for (var i = 0; i < 26; i++) {
+				if (indice_2 == null) {
+					if (i == 0) {
+						novoindice = 0
+						maior = alfabeto[i]
+					}else if (alfabeto[i] > maior) {
+						novoindice = i
+						maior = alfabeto[i]
+					}
+				}else {
+					if (indice_2 != i) {
+						if (alfabeto[i] < alfabeto[indice_2] && alfabeto[i] > maior) {
+							novoindice = i
+							maior = alfabeto[i]
+						}
+					}
+				}	
+			}
+			return novoindice
+		}
+    
+    $('#form-decifrar').submit(function(e){
+      e.preventDefault()
+      var texto = $('#texto-cript4').val().toUpperCase()
+      
+      console.log(texto)
+      for (var j = 0; j < 26; j++) {
+        alfabeto [j] = 0
+        console.log('array')
+      }
+      
+      for (var i = 0; i < texto.length; i++){
+        for (var j = 0; j < 26; j++) {
+          if(texto.charCodeAt(i) == (j + 65))
+          alfabeto [j] += 1
+        }
+      }
+      
+       indice = indice_maior(alfabeto)
+      
+      // console.log(alfabeto)
+      
+      
+      $('#result-descript2').html(decriptCesar(texto, indice))
+      $('#botoes').removeClass('invisible')
+      
+    })
+    
+    $('#botoes').click(function(e){
+      e.preventDefault()
+      var texto = $('#texto-cript4').val().toUpperCase()
+      console.log(texto)
+      
+      novoindice = indice_maior(alfabeto, indice)
+      indice = novoindice
+      console.log(alfabeto)
+      
+      
+      $('#result-descript2').html(decriptCesar(texto, indice))
+      
+    })
+</script>

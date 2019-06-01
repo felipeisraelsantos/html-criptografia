@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script> -->
+    <script src="js/jquery-3.4.1.slim.min.js"></script>
+    <link rel="stylesheet" href="css/w3css.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="w3-container" style="padding-top: 1% ">
+        <nav class="w3-container w3-bar w3-border w3-black" style="padding: 1%">
+            <a href="javascript: abreLink('cifraCesarFixo.html')" class="w3-button">Cifra de Cesar com 7 Posições</a>
+            <a href="javascript: abreLink('cifraCesar.html')" class="w3-button">Cifra de Cesar com escolha de Posição</a>
+            <a href="javascript: abreLink('cifraVigenere.html')" class="w3-button">Cifra de Vigenere</a>
+            <a href="javascript: abreLink('cifraAnaliseFrequencia.html')" class="w3-button">Análise de Frequência</a>
+        </nav>
+    </div>
+    <div id="conteudo" class="w3-container" style="padding: 2%"></div> 
+
+    <script src="js/funcoes.js"></script>
+<script>
+    function abreLink(site){
+        document.getElementById("conteudo").innerHTML="";
+        let alturaFrame = window.innerHeight;
+        document.getElementById("conteudo").innerHTML="<iframe frameborder='0' src='"+site+"' class='w3-animate-left' height='"+alturaFrame+"px' width='100%' id='container'></iframe>";
+    }
+</script>    
+</body>
+</html>

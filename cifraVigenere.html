@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="css/w3css.css">    
+
+<script src="js/jquery-3.4.1.slim.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>-->
+
+<script src="js/popper.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+
+<script src="js/bootstrap.min.js"></script>
+
+<div class="w3-container w3-card-4 w3-border" style="padding: 1%">
+    <div class="w3-col w3-container">
+        <label for="" class="w3-text">Texto a ser Criptografado</label>
+        <input type="text" class="w3-input w3-border"  name="texto-descript3" id="texto-descript3">
+    </div>
+
+    <div class="w3-col w3-container" style="margin-top: 2%">
+        <label for="" class="w3-text">Chave de Criptografia</label>
+        <input type="text" class="w3-input w3-border" name="texto-chave" id="texto-chave">
+    </div>
+
+    <div class="w3-col w3-container" style="margin-top: 2%">
+        <label for="" class="w3-text">Texto Criptografado</label>
+        <input type="text" class="w3-input w3-border" id="result-cript">
+    </div>
+
+    <div class="w3-col w3-container" style="margin-top: 2%">
+        <label for="">Insira Chave para Descriptografar</label>
+        <input type="text" class="w3-input w3-border" name="texto-chave2" id="texto-chave2">
+    </div>
+    
+    <div class="w3-col w3-container" style="margin-top: 2%">
+        <label for="" class="w3-text">Texto Descriptografado</label>
+        <input type="text" class="w3-input w3-border" id="result-descript">
+    </div>
+    
+</div>
+
+<script>
+    function tiraAcento(texto) {
+        return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+    }
+
+    function encriptVigenere(texto, chave) {
+        var cifra = ""
+        var j = 0
+        
+        for (i = 0; i < texto.length; i++) {
+            if (texto.charCodeAt(i) == 32) {
+                cifra += String.fromCharCode(32)
+                continue
+            }
+            var codigo = (texto.charCodeAt(i) + chave.charCodeAt(j) - 2 * 65) % 26 + 65
+            j = (j + 1) % chave.length
+            
+            cifra += String.fromCharCode(codigo)
+        }
+        
+        return cifra;
+    }
+
+    function descriptVigenere(texto, chave) {
+        var cifra = ""
+        var j = 0
+        
+        for (i = 0; i < texto.length; i++) {
+            if (texto.charCodeAt(i) == 32) {
+                cifra += String.fromCharCode(32)
+                continue
+            }
+            var codigo = (texto.charCodeAt(i) - chave.charCodeAt(j) + 26) % 26 + 65
+            j = (j + 1) % chave.length
+            
+            cifra += String.fromCharCode(codigo)
+        }
+        
+        return cifra;
+    }
+
+    $('#texto-chave').keyup(function(e){
+        e.preventDefault()
+        
+        var texto = tiraAcento($('#texto-descript3').val().toUpperCase())
+        var chave = tiraAcento($('#texto-chave').val().toUpperCase())
+        
+        $('#result-cript').val(encriptVigenere(texto, chave))
+        $('#result').val(encriptVigenere(texto, chave))
+    })
+
+    $('#texto-chave2').keyup(function(e){
+        e.preventDefault()
+        
+        var texto = tiraAcento($('#result-cript').val().toUpperCase())
+        var chave = tiraAcento($('#texto-chave2').val().toUpperCase())
+        
+        $('#result-descript').val(descriptVigenere(texto, chave))
+    })
+
+</script>

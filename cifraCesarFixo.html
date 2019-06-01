@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="css/w3css.css">    
+
+<script src="js/jquery-3.4.1.slim.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>-->
+
+<script src="js/popper.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+
+<script src="js/bootstrap.min.js"></script>
+
+<div class="w3-container w3-card-4 w3-border" style="padding: 1%">
+<div class="w3-col w3-container">
+    <label for="">Texto a ser Criptografado</label>    
+    <input type="text" class="w3-input w3-border" name="texto-descript" id="texto-descript" >
+</div>
+
+<div class="w3-col w3-container" style="margin-top: 2%">
+    <label for="">Texto Criptografado</label>
+    <input type="text" class="w3-input w3-border" name="texto-cript" id="texto-cript">
+</div>    
+</div>
+
+<script>
+function tiraAcento(texto) {
+return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+}
+
+function encriptCesar(texto, posicao) {
+var cifra = ""
+for (var i = 0; i < texto.length; i++) {
+    if (texto.charCodeAt(i) == 32) {
+        cifra += String.fromCharCode(32)
+        continue
+    }
+    var codigo = (((texto.charCodeAt(i) - 65) + posicao) % 26) + 65
+    cifra += String.fromCharCode(codigo)
+}
+
+return cifra
+
+}
+
+$('#texto-descript').keyup(function(e){
+    e.preventDefault()
+    var texto = tiraAcento($('#texto-descript').val().toUpperCase())
+
+    $('#texto-cript').val(encriptCesar(texto, 7))
+})
+</script>
